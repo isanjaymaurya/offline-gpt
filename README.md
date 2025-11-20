@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# Offline ChatGPT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Stack
 
-Currently, two official plugins are available:
+- Node.js (16+ / 18+)
+- npm, pnpm or yarn
+- Vite
+- React 18 + TypeScript
+- ESLint
+- Local inference runtime (one of: ggml-based binary, PyTorch/transformers server, ONNX/Triton)
+- DeepSeek model files (DeepSeek-1B / DeepSeek-2B) — FP16/FP32 or quantized formats
+- (Optional) CUDA drivers and GPU for faster FP16 inference
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Steps to run this project (development)
 
-## React Compiler
+1. Install Node and package manager
+   - Windows: install Node.js 18+ from nodejs.org
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies
+```sh
+npm install
+# or
+pnpm install
+# or
+yarn
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. Place model files
+- Create model directories, e.g.:
+  - models/deepseek-1b/
+  - models/deepseek-2b/
+- Put the required model files (weights + tokenizer/config) into the appropriate folder.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4. Start a local inference server
+- Use your preferred runtime. Examples:
+  - ggml-based binary: run the binary pointing to models/deepseek-1b
+  - Python/transformers: launch a small FastAPI/Flask server that loads the model and exposes an /api/chat endpoint
+- Recommended environment variables:
+  - MODEL_PATH=./models/deepseek-1b
+  - INFERENCE_PORT=7860
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+5. Run the frontend (development)
+```sh
+npm run dev
+# or with pnpm/yarn
+pnpm dev
+yarn dev
 ```
+- By default the frontend communicates with a local API; update the API host/port in src/config or environment variables if needed.
+
+6. Build for production
+```sh
+npm run build
+npm run preview
+```
+
+## Minimal API contract (example)
+
+- POST /api/chat
+  - Body: { "messages":[{"role":"user","content":"Hello"}], "model":"deepseek-1b" }
+  - Response: { "id":"...", "choices":[{"message":{"role":"assistant","content":"..."}}] }
+
+## Notes & troubleshooting
+
+- OOM on CPU: use a quantized model or reduce context length.
+- Slow responses: enable FP16 on GPU or use optimized runtime/batching.
+- Secure local endpoints before exposing to networks.
