@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import { Helmet } from "react-helmet";
 import { useNavigate, useParams } from 'react-router';
 
-import ChatListSideBar from '../../components/ChatListSideBar/ChatListSideBar';
-import type { ChatRecordType } from '../../global';
-import ChatForm from '../../components/Forms/ChatForm/ChatForm';
 import { useIndexDb } from '../../hooks/useIndexDB';
 import { SITE_NAME } from '../../constants';
+import './ChatPage.module.scss';
+import BaseLayout from "../../components/Layout/BaseLayout/BaseLayout";
+import ChatListSideBar from "../../components/ChatListSideBar/ChatListSideBar";
+import ChatForm from '../../components/Forms/ChatForm/ChatForm';
+import type { ChatRecordType } from '../../global';
 
 function ChatPage() {
     const { chatId } = useParams();
@@ -47,7 +49,8 @@ function ChatPage() {
     }, [chatId]);
 
     const handleOnAddChat = async () => {
-        await addRecord({ name: "Sanjay", role: "Developer" });
+        const newRecordId = await addRecord({ name: "Sanjay", role: "Developer" });
+        navigate(`/chat/${newRecordId}`, { replace: true });
         const updated = await getAllRecord();
         setChatList(updated);
     };
@@ -68,18 +71,20 @@ function ChatPage() {
                 <title>{pageTitle}</title>
                 <meta name="description" content="Chat with our AI model." />
             </Helmet>
-            <main>
-                <ChatListSideBar
-                    chatList={chatList}
-                    handleOnAddChat={handleOnAddChat}
-                    handleOnDeleteChat={handleOnDeleteChat}
-                />
-                <div className='conversation'>
-                    <div className='chat-form'>
-                        <ChatForm />
-                    </div>
+
+            <BaseLayout
+                sidebar={
+                    <ChatListSideBar
+                        chats={chatList}
+                        onAdd={handleOnAddChat}
+                        onDelete={handleOnDeleteChat}
+                    />
+                }
+            >
+                <div>
+                    <ChatForm />
                 </div>
-            </main>
+            </BaseLayout>
         </>
     )
 }

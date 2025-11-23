@@ -2,26 +2,26 @@ import { Link } from "react-router";
 import type { ChatRecordType } from "../../global";
 
 interface ChatListSideBarProps {
-    chatList: ChatRecordType[];
-    handleOnAddChat: () => void;
-    handleOnDeleteChat: (id: number) => void;
+    chats: ChatRecordType[];
+    onAdd: () => void;
+    onDelete: (id: number) => void;
 }
 
 const ChatListSideBar = (
-    { chatList, handleOnAddChat, handleOnDeleteChat }: ChatListSideBarProps
+    { chats, onAdd, onDelete }: ChatListSideBarProps
 ) => {
     return (
         <aside className="chat-list-sidebar">
             <div>
                 <button
                     aria-label='New Chat'
-                    onClick={handleOnAddChat}
+                    onClick={onAdd}
                 >
                     +
                 </button>
             </div>
             <ul className="chat-sidebar">
-                {chatList.map((chat) => (
+                {chats.map((chat) => (
                     <li key={chat.id}>
                         <div>
                             <Link to={`/chat/${chat.id}`}>
@@ -29,7 +29,7 @@ const ChatListSideBar = (
                             </Link>
                             <button
                                 aria-label={`Delete chat ${chat.id}`}
-                                onClick={() => chat.id !== undefined && handleOnDeleteChat(chat.id)}
+                                onClick={() => chat.id !== undefined && onDelete(chat.id)}
                             >
                                 Delete
                             </button>

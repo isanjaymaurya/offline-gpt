@@ -1,0 +1,24 @@
+@use "styles/variables" as vars;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: vars.$font-stack;
+}
+
+:root {
+  color: #f1f1f1;
+  background-color: #333;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+}
