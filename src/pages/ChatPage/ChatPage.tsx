@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { Helmet } from "react-helmet";
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
+
+import ChatListSideBar from '../../components/ChatListSideBar/ChatListSideBar';
+import Textarea from '../../components/UI/Textarea/Textarea';
+import Button from '../../components/UI/Button/Button';
 
 function ChatForm() {
     const [text, setText] = useState("");
@@ -30,7 +34,7 @@ function ChatForm() {
     return (
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <label htmlFor="prompt">Message</label>
-            <textarea
+            <Textarea
                 id="prompt"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -38,9 +42,9 @@ function ChatForm() {
                 style={{ resize: "vertical", padding: 8 }}
                 placeholder="Type your message..."
             />
-            <button type="submit" disabled={loading || !text.trim()}>
+            <Button type="submit" disabled={loading || !text.trim()}>
                 {loading ? "Sending..." : "Send"}
-            </button>
+            </Button>
         </form>
     );
 }
@@ -50,14 +54,21 @@ function ChatPage() {
 
   console.log("Chat ID:", chatId);
   return (
-    <div>
+    <>
         <Helmet>
             <title>Chat Page</title>
             <meta name="description" content="Chat with our AI model." />
         </Helmet>
-        <h1>Chat Page</h1>
-        <ChatForm />
-    </div>
+        <main>
+            <Link to="/chat">
+                <button aria-label='New Chat'>+</button>
+            </Link>
+            <ChatListSideBar />
+            <div className='conversation'>
+                <ChatForm />
+            </div>
+        </main>
+    </>
   )
 }
 
