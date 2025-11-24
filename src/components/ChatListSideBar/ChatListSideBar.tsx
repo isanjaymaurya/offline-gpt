@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import type { ChatRecordType } from "../../global";
 import IconButton from "../UI/IconButton/IconButton";
+import DocumentAddIcon from "../Icons/DocumentAddIcon";
 
 interface ChatListSideBarProps {
     chats: ChatRecordType[];
@@ -17,7 +18,7 @@ const ChatListSideBar = (
                     <IconButton
                         aria-label='New Chat'
                     >
-                        +
+                        <DocumentAddIcon /> New Chat
                     </IconButton>
                 </Link>
             </div>

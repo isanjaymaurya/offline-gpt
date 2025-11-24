@@ -16,7 +16,7 @@ const BaseLayout: React.FC<Props> = ({ children, sidebar, className }) => {
         style={{
           display: "flex",
           alignItems: "stretch",
-          minHeight: "calc(100vh - 56px)", // account for navbar height
+          minHeight: "calc(100vh - 56px)"
         }}
       >
         {sidebar ? (

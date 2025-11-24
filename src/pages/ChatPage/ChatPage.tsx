@@ -71,7 +71,6 @@ function ChatPage() {
                 <title>{pageTitle}</title>
                 <meta name="description" content="Chat with our AI model." />
             </Helmet>
-
             <BaseLayout
                 sidebar={
                     <ChatListSideBar
