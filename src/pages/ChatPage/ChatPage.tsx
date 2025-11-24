@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from "react-helmet";
 import { useNavigate, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 import { useIndexDb } from '../../hooks/useIndexDB';
 import { SITE_NAME } from '../../constants';
@@ -10,7 +11,6 @@ import ChatListSideBar from "../../components/ChatListSideBar/ChatListSideBar";
 import ChatForm from '../../components/Forms/ChatForm/ChatForm';
 import type { ChatConvoType, ChatRecordType } from '../../global';
 import ChatSuggestions from '../../components/ChatSuggestions/ChatSuggestions';
-import { toast } from 'react-toastify';
 
 function ChatPage() {
     const { chatId } = useParams();
@@ -39,12 +39,11 @@ function ChatPage() {
     }, [isDBReady, getAllRecord]);
 
     useEffect(() => {
-        if (!chatId) return;
+        if (!chatId || !isDBReady) return;
 
         getChatRecord(chatId)
             .then((record) => {
                 if (record) {
-                    console.log("Loaded chat record:", record);
                     setPageTitle(`${record.chatTitle} | ${SITE_NAME}`);
                     setChatTitle(record.chatTitle || "");
                     setChatConvo(record.convo || []);
@@ -63,7 +62,7 @@ function ChatPage() {
                 };
             })
             .catch(e => console.error("Error fetching chat record:", e));
-    }, [chatId]);
+    }, [isDBReady, chatId]);
 
     const handleOnAddChat = async (newUserQuery: string) => {
         const newChatData = { 
@@ -109,6 +108,13 @@ function ChatPage() {
         setUserQuery(suggestion);
     }
 
+    const handleOnChatReset = () => {
+        setChatTitle("");
+        setChatConvo([]);
+        setPageTitle(`Chat Page | ${SITE_NAME}`);
+    }
+
+    console.log(pageTitle)
     return (
         <>
             <Helmet>
@@ -120,6 +126,7 @@ function ChatPage() {
                     <ChatListSideBar
                         chats={chatList}
                         onDelete={handleOnDeleteChat}
+                        onNewChat={handleOnChatReset}
                     />
                 }
             >

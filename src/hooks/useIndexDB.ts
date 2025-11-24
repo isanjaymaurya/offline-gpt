@@ -123,7 +123,6 @@ export function useIndexDb(dbName: string, storeName: string) {
                             convo: updatedConvo,
                             updatedAt: Date.now(),
                         };
-                        console.log("Updating record:", newRecord);
                         const putRequest = store.put(newRecord);
                         putRequest.onerror = (e) =>
                             reject((e.target as IDBRequest).error ?? new Error("Update record failed"));

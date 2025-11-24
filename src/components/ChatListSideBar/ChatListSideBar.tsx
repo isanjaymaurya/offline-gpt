@@ -7,10 +7,11 @@ import Button from "../UI/Button/Button";
 interface ChatListSideBarProps {
     chats: ChatRecordType[];
     onDelete: (id: string) => void;
+    onNewChat: () => void;
 }
 
 const ChatListSideBar = (
-    { chats, onDelete }: ChatListSideBarProps
+    { chats, onDelete, onNewChat }: ChatListSideBarProps
 ) => {
     return (
         <aside className="chat-list-sidebar">
@@ -19,6 +20,7 @@ const ChatListSideBar = (
                     <Button
                         aria-label='New Chat'
                         startIcon={<DocumentAddIcon />}
+                        onClick={onNewChat}
                     >
                         New Chat
                     </Button>
