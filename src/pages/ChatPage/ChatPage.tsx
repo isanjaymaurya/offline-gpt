@@ -101,6 +101,7 @@ function ChatPage() {
         // if the deleted chat is currently open, navigate away
         if(chatId == id){
             navigate('/chat', { replace: true });
+            handleOnChatReset();
         }
     };
 
@@ -114,7 +115,6 @@ function ChatPage() {
         setPageTitle(`Chat Page | ${SITE_NAME}`);
     }
 
-    console.log(pageTitle)
     return (
         <>
             <Helmet>
