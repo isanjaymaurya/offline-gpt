@@ -9,6 +9,7 @@ import BaseLayout from "../../components/Layout/BaseLayout/BaseLayout";
 import ChatListSideBar from "../../components/ChatListSideBar/ChatListSideBar";
 import ChatForm from '../../components/Forms/ChatForm/ChatForm';
 import type { ChatRecordType } from '../../global';
+import ChatSuggestions from '../../components/ChatSuggestions/ChatSuggestions';
 
 function ChatPage() {
     const { chatId } = useParams();
@@ -22,6 +23,7 @@ function ChatPage() {
     } = useIndexDb("ChatDB", "Chats");
     const [chatList, setChatList] = useState<ChatRecordType[]>([]);
     const [pageTitle, setPageTitle] = useState(`Chat Page | ${SITE_NAME}`);
+    const [userQuery, setUserQuery] = useState<string>("");
 
     useEffect(() => {
         if (!isDBReady) return;
@@ -65,6 +67,11 @@ function ChatPage() {
         }
     };
 
+    const onSelect = (suggestion: string) => {
+        console.log("Suggestion selected:", suggestion);
+        setUserQuery(suggestion);
+    }
+
     return (
         <>
             <Helmet>
@@ -80,7 +87,12 @@ function ChatPage() {
                 }
             >
                 <div>
-                    <ChatForm onAdd={handleOnAddChat} />
+                    <ChatSuggestions onSelect={onSelect} />
+                    <ChatForm
+                        userQuery={userQuery}
+                        setUserQuery={setUserQuery}
+                        onAdd={handleOnAddChat}
+                    />
                 </div>
             </BaseLayout>
         </>

@@ -3,31 +3,34 @@ import Button from "../../UI/Button/Button";
 import Textarea from "../../UI/Textarea/Textarea";
 
 export type ChatFormProps = {
-  placeholder?: string;
-  disabled?: boolean;
-  onSubmit?: (text: string) => void | Promise<void>;
-  onAdd?: () => void | Promise<void>;
+    userQuery: string;
+    setUserQuery: (text: string) => void;
+    placeholder?: string;
+    disabled?: boolean;
+    onSubmit?: (text: string) => void | Promise<void>;
+    onAdd?: () => void | Promise<void>;
 };
 
 const ChatForm: React.FC<ChatFormProps> = ({
-  disabled = false,
-  onSubmit,
-  onAdd,
+    userQuery,
+    setUserQuery,
+    disabled = false,
+    onSubmit,
+    onAdd
 }) => {
-  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!text.trim() || disabled) return;
+    if (!userQuery.trim() || disabled) return;
     setLoading(true);
     try {
       if (onSubmit) {
-        await onSubmit(text);
+        await onSubmit(userQuery);
       } else {
       }
 
-      setText("");
+      setUserQuery("");
 
       if (onAdd) {
         await onAdd();
@@ -43,15 +46,15 @@ const ChatForm: React.FC<ChatFormProps> = ({
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <Textarea
         id="prompt"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        value={userQuery}
+        onChange={(e) => setUserQuery(e.target.value)}
         rows={6}
         style={{ resize: "vertical", padding: 8 }}
         placeholder={"Type your query..."}
       />
       <Button
         type="submit"
-        disabled={loading || !text.trim() || disabled}
+        disabled={loading || !userQuery.trim() || disabled}
         loading={loading}
       >
         {loading ? "Sending..." : "Send Message"}

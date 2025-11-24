@@ -1,0 +1,99 @@
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--chip-fg);
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  user-select: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.filled {
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  border-color: transparent;
+}
+
+.outlined {
+  background: transparent;
+  border-color: var(--chip-border);
+}
+
+.size-small {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.size-medium {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.size-large {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.color-default { /* already defaults */ }
+.color-primary {
+  background: var(--chip-primary);
+  color: var(--chip-primary-fg);
+  border-color: transparent;
+}
+.color-secondary {
+  background: var(--chip-secondary);
+  color: var(--chip-secondary-fg);
+  border-color: transparent;
+}
+
+.startIcon,
+.endIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* delete/remove button */
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+}
+.deleteBtn:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+/* ensure button variant has no browser default outlines interfering */
+.chip button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}

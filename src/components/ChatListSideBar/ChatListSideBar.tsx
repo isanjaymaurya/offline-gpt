@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import type { ChatRecordType } from "../../global";
 import IconButton from "../UI/IconButton/IconButton";
 import DocumentAddIcon from "../Icons/DocumentAddIcon";
+import Button from "../UI/Button/Button";
 
 interface ChatListSideBarProps {
     chats: ChatRecordType[];
@@ -13,13 +14,14 @@ const ChatListSideBar = (
 ) => {
     return (
         <aside className="chat-list-sidebar">
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'end'}}>
                 <Link to="/chat">
-                    <IconButton
+                    <Button
                         aria-label='New Chat'
+                        startIcon={<DocumentAddIcon />}
                     >
-                        <DocumentAddIcon /> New Chat
-                    </IconButton>
+                        New Chat
+                    </Button>
                 </Link>
             </div>
             <ul className="chat-sidebar">

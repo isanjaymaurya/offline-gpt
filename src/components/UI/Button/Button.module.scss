@@ -1,6 +1,7 @@
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 8px 12px;
   border-radius: 8px;
@@ -10,8 +11,9 @@
   font-weight: 600;
   cursor: pointer;
   line-height: 1;
-  transition: background 0.15s ease, opacity 0.15s ease, transform 0.08s ease;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.08s ease, box-shadow 0.12s ease;
   user-select: none;
+  box-sizing: border-box;
 }
 
 .button:hover:not(:disabled) {
@@ -29,6 +31,58 @@
   transform: none;
 }
 
+/* Sizes */
+.small { padding: 6px 10px; font-size: 13px; border-radius: 6px; }
+.medium { padding: 8px 12px; font-size: 14px; border-radius: 8px; }
+.large { padding: 10px 16px; font-size: 15px; border-radius: 10px; }
+
+/* Variants */
+.contained {
+  background: var(--btn-bg, #0f172a);
+  color: var(--btn-fg, #fff);
+  border-color: transparent;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.contained:hover:not(:disabled) { filter: brightness(0.98); transform: translateY(-1px); }
+
+.outlined {
+  background: transparent;
+  color: var(--btn-fg, #0f172a);
+  border-color: rgba(0,0,0,0.08);
+}
+.outlined:hover:not(:disabled) { background: rgba(0,0,0,0.03); transform: translateY(-1px); }
+
+.text {
+  background: transparent;
+  color: var(--btn-fg, #0f172a);
+  border-color: transparent;
+}
+.text:hover:not(:disabled) { background: rgba(0,0,0,0.03); transform: translateY(-1px); }
+
+/* Colors */
+.color-default { /* use default vars */ }
+.color-primary { --btn-bg: #2563eb; --btn-fg: #fff; }
+.color-secondary { --btn-bg: #6b7280; --btn-fg: #fff; }
+.color-danger { --btn-bg: #dc2626; --btn-fg: #fff; }
+
+/* full width */
+.fullWidth, .fullWidth.button {
+  width: 100%;
+}
+
+/* icon slots */
+.startIcon, .endIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+}
+.startIcon { margin-right: 4px; }
+.endIcon { margin-left: 4px; }
+
+/* label */
 .label {
   display: inline-flex;
   align-items: center;
@@ -40,25 +94,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right: 4px;
+  margin-right: 6px;
 }
-
 .spinner svg {
   width: 18px;
   height: 18px;
   display: block;
   stroke: currentColor;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* rotate the path for spinner animation */
-.spinner svg path,
-.spinner svg circle {
   transform-origin: 50% 50%;
-}
-.spinner svg path {
   animation: spin 1s linear infinite;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* loading state - slightly dim label when spinner present */
+.loading .label { opacity: 0.95; }

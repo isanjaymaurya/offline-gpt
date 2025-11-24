@@ -9,6 +9,15 @@ body {
 :root {
   color: #f1f1f1;
   background-color: #333;
+
+  // chip variables
+  --chip-bg: #f3f4f6;
+  --chip-fg: #0f172a;
+  --chip-border: rgba(15,23,42,0.08);
+  --chip-primary: #2563eb;
+  --chip-primary-fg: #fff;
+  --chip-secondary: #6b7280;
+  --chip-secondary-fg: #fff;
 }
 
 .container {
